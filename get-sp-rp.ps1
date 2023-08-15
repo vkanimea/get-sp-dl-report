@@ -47,61 +47,69 @@ try {
 }
    
 #Iterate through each list item
-ForEach($Item in $ListItems)
-{
-    Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
+try {
+    ForEach($Item in $ListItems)
+    {
+        Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
  
-    #Check if the Item has unique permissions
-    $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments"
-    If($HasUniquePermissions)
-    {       
-        #Get Shared Links
-        $SharingInfo = [Microsoft.SharePoint.Client.ObjectSharingInformation]::GetObjectSharingInformation($Ctx, $Item, $false, $false, $false, $true, $true, $true, $true)
-        $ctx.Load($SharingInfo)
-        $ctx.ExecuteQuery()
-         
-        ForEach($ShareLink in $SharingInfo.SharingLinks)
-        {
-            If($ShareLink.Url)
-            {           
-                If($ShareLink.IsEditLink)
-                {
-                    $AccessType="Edit"
-                }
-                ElseIf($shareLink.IsReviewLink)
-                {
-                    $AccessType="Review"
-                }
-                Else
-                {
-                    $AccessType="ViewOnly"
-                }
-                 
-                #Check if the item is a file or a folder
-                if ($Item.FileSystemObjectType -eq "File") {
-                    #Clear the sharing link for a file
-                    Remove-PnPFileSharingLink -Url $Item.FieldValues["FileRef"]
-                } elseif ($Item.FileSystemObjectType -eq "Folder") {
-                    #Clear the sharing link for a folder
-                    Remove-PnPFolderSharingLink -Url $Item.FieldValues["FileRef"]
-                }
+        #Check if the Item has unique permissions
+        $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments"
+        If($HasUniquePermissions)
+        {       
+            #Get Shared Links
+            $SharingInfo = [Microsoft.SharePoint.Client.ObjectSharingInformation]::GetObjectSharingInformation($Ctx, $Item, $false, $false, $false, $true, $true, $true, $true)
+            $ctx.Load($SharingInfo)
+            $ctx.ExecuteQuery()
+             
+            #Iterate through each sharing link
+            ForEach($ShareLink in $SharingInfo.SharingLinks)
+            {
+                If($ShareLink.Url)
+                {           
+                    #Determine the access type of the sharing link
+                    If($ShareLink.IsEditLink)
+                    {
+                        $AccessType="Edit"
+                    }
+                    ElseIf($shareLink.IsReviewLink)
+                    {
+                        $AccessType="Review"
+                    }
+                    Else
+                    {
+                        $AccessType="ViewOnly"
+                    }
+                     
+                    #Check if the item is a file or a folder and clear the sharing link accordingly
+                    if ($Item.FileSystemObjectType -eq "File") {
+                        Remove-PnPFileSharingLink -Url $Item.FieldValues["FileRef"]
+                    } elseif ($Item.FileSystemObjectType -eq "Folder") {
+                        Remove-PnPFolderSharingLink -Url $Item.FieldValues["FileRef"]
+                    }
 
-                #Collect the data
-                $Results += New-Object PSObject -property $([ordered]@{
-                Name  = $Item.FieldValues["FileLeafRef"]           
-                RelativeURL = $Item.FieldValues["FileRef"]
-                FileType = $Item.FieldValues["File_x0020_Type"]
-                ShareLink  = $ShareLink.Url
-                ShareLinkAccess  =  $AccessType
-                ShareLinkType  = $ShareLink.LinkKind
-                AllowsAnonymousAccess  = $ShareLink.AllowsAnonymousAccess
-                IsActive  = $ShareLink.IsActive
-                })
+                    #Collect the data
+                    $Results += New-Object PSObject -property $([ordered]@{
+                    Name  = $Item.FieldValues["FileLeafRef"]           
+                    RelativeURL = $Item.FieldValues["FileRef"]
+                    FileType = $Item.FieldValues["File_x0020_Type"]
+                    ShareLink  = $ShareLink.Url
+                    ShareLinkAccess  =  $AccessType
+                    ShareLinkType  = $ShareLink.LinkKind
+                    AllowsAnonymousAccess  = $ShareLink.AllowsAnonymousAccess
+                    IsActive  = $ShareLink.IsActive
+                    })
+                }
             }
         }
+        Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
+        $global:counter++
     }
-    Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
-    $global:counter++
+    $Results | Export-CSV $ReportOutput -NoTypeInformation
+    Write-host -f Green "Sharing Links Report Generated Successfully!"
+} catch [System.Management.Automation.RuntimeException] {
+    Write-Host "Runtime error while processing the items: $_" | Out-File $LogFile -Append
+    exit 1
+} catch {
+    Write-Host "An unknown error occurred while processing the items: $_" | Out-File $LogFile -Append
+    exit 1
 }
-$Results | Export-CSV $ReportOutput -NoTypeInformation
-Write-host -f Green "Sharing Links Report Generated Successfully!"
