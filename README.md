@@ -3,7 +3,5 @@
 # Parameters are SiteURL, ReportOutput, ListName {Document Library}, FolderName {Optional - Specify a folder}, RemoveSharing {Optional - Control whether to remove sharing}
 # Uses PnP Modules for Sharepoint
 # ReportOutput: csv file output : Name, RelativeURL, FileType, ShareLink, ShareLinkAccess, ShareLinkType, AllowsAnonymousAccess, IsActive, Expiration
-# To Do
-# 1. External Parameters for SiteURL, ReportOutput, ListName, FolderName, RemoveSharing
-# 2. Add External Parameter to remove Expiration
+
 
