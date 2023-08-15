@@ -1,7 +1,12 @@
 #Parameters
-$SiteUrl = "https://spc_cloud.sharepoint.com/sites/intranet/"
-$ReportOutput = "SharedLinks.csv"
-$ListName = "PO Documents"
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$SiteUrl,
+    [Parameter(Mandatory=$true)]
+    [string]$ReportOutput,
+    [Parameter(Mandatory=$true)]
+    [string]$ListName
+)
     
 #Connect to PnP Online
 Connect-PnPOnline -Url $SiteURL -UseWebLogin
