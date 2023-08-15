@@ -67,6 +67,9 @@ ForEach($Item in $ListItems)
                     $AccessType="ViewOnly"
                 }
                  
+                #Clear the sharing link expiration
+                Set-PnPListItemPermission -List $ListName -Identity $Item.Id -ClearSharingLink
+
                 #Collect the data
                 $Results += New-Object PSObject -property $([ordered]@{
                 Name  = $Item.FieldValues["FileLeafRef"]           
@@ -77,7 +80,6 @@ ForEach($Item in $ListItems)
                 ShareLinkType  = $ShareLink.LinkKind
                 AllowsAnonymousAccess  = $ShareLink.AllowsAnonymousAccess
                 IsActive  = $ShareLink.IsActive
-                Expiration = $ShareLink.Expiration
                 })
             }
         }
