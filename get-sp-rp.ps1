@@ -18,10 +18,17 @@ try {
     $global:counter = 0
       
     #Get all list items in batches
-    $ListItems = Get-PnPListItem -List $ListName -PageSize 2000
+    #Only fetch the fields we need to improve performance
+    $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
     $ItemCount = $ListItems.Count
+} catch [System.Net.WebException] {
+    Write-Host "Network error: $_" | Out-File $LogFile -Append
+    exit 1
+} catch [System.Management.Automation.CommandNotFoundException] {
+    Write-Host "Command not found: $_" | Out-File $LogFile -Append
+    exit 1
 } catch {
-    Write-Host "An error occurred: $_" | Out-File $LogFile -Append
+    Write-Host "An unknown error occurred: $_" | Out-File $LogFile -Append
     exit 1
 }
 
@@ -29,10 +36,13 @@ try {
 try {
     ForEach($Item in $ListItems)
     {
-        #...
+        #Processing code goes here...
     }
+} catch [System.Management.Automation.RuntimeException] {
+    Write-Host "Runtime error while processing the items: $_" | Out-File $LogFile -Append
+    exit 1
 } catch {
-    Write-Host "An error occurred while processing the items: $_" | Out-File $LogFile -Append
+    Write-Host "An unknown error occurred while processing the items: $_" | Out-File $LogFile -Append
     exit 1
 }
    
