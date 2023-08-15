@@ -7,7 +7,9 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$ListName,
     [Parameter(Mandatory=$false)]
-    [string]$LogFile = "log.txt"
+    [string]$LogFile = "log.txt",
+    [Parameter(Mandatory=$false)]
+    [bool]$RemoveSharingFileAccess = $true
 )
     
 try {
@@ -81,10 +83,12 @@ try {
                     }
                      
                     #Check if the item is a file or a folder and clear the sharing link accordingly
-                    if ($Item.FileSystemObjectType -eq "File") {
-                        Remove-PnPFileSharingLink -Url $Item.FieldValues["FileRef"]
-                    } elseif ($Item.FileSystemObjectType -eq "Folder") {
-                        Remove-PnPFolderSharingLink -Url $Item.FieldValues["FileRef"]
+                    if ($RemoveSharingFileAccess) {
+                        if ($Item.FileSystemObjectType -eq "File") {
+                            Remove-PnPFileSharingLink -Url $Item.FieldValues["FileRef"]
+                        } elseif ($Item.FileSystemObjectType -eq "Folder") {
+                            Remove-PnPFolderSharingLink -Url $Item.FieldValues["FileRef"]
+                        }
                     }
 
                     #Collect the data
