@@ -67,8 +67,14 @@ ForEach($Item in $ListItems)
                     $AccessType="ViewOnly"
                 }
                  
-                #Clear the sharing link
-                Set-PnPListItem -List $ListName -Identity $Item.Id -Values @{"SharedWithUsersId" = @()}
+                #Check if the item is a file or a folder
+                if ($Item.FileSystemObjectType -eq "File") {
+                    #Clear the sharing link for a file
+                    Remove-PnPFileSharingLink -Url $Item.FieldValues["FileRef"]
+                } elseif ($Item.FileSystemObjectType -eq "Folder") {
+                    #Clear the sharing link for a folder
+                    Remove-PnPFolderSharingLink -Url $Item.FieldValues["FileRef"]
+                }
 
                 #Collect the data
                 $Results += New-Object PSObject -property $([ordered]@{
