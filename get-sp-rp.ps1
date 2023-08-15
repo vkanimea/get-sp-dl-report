@@ -82,6 +82,7 @@ ForEach($Item in $ListItems)
             }
         }
     }
+    Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
     $global:counter++
 }
 $Results | Export-CSV $ReportOutput -NoTypeInformation
