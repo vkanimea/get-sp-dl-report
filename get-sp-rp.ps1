@@ -67,8 +67,8 @@ ForEach($Item in $ListItems)
                     $AccessType="ViewOnly"
                 }
                  
-                #Clear the sharing link expiration
-                Set-PnPListItemPermission -List $ListName -Identity $Item.Id -ClearSharingLink
+                #Clear the sharing link
+                Set-PnPListItem -List $ListName -Identity $Item.Id -Values @{"SharedWithUsersId" = @()}
 
                 #Collect the data
                 $Results += New-Object PSObject -property $([ordered]@{
