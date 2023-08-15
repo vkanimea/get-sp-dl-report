@@ -8,15 +8,20 @@ param(
     [string]$ListName
 )
     
-#Connect to PnP Online
-Connect-PnPOnline -Url $SiteURL -UseWebLogin
-$Ctx = Get-PnPContext
-$Results = @()
-$global:counter = 0
-  
-#Get all list items in batches
-$ListItems = Get-PnPListItem -List $ListName -PageSize 2000
-$ItemCount = $ListItems.Count
+try {
+    #Connect to PnP Online
+    Connect-PnPOnline -Url $SiteURL -UseWebLogin
+    $Ctx = Get-PnPContext
+    $Results = @()
+    $global:counter = 0
+      
+    #Get all list items in batches
+    $ListItems = Get-PnPListItem -List $ListName -PageSize 2000
+    $ItemCount = $ListItems.Count
+} catch {
+    Write-Host "An error occurred: $_"
+    exit 1
+}
    
 #Iterate through each list item
 ForEach($Item in $ListItems)
