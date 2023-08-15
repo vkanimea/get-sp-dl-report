@@ -5,7 +5,9 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$ReportOutput,
     [Parameter(Mandatory=$true)]
-    [string]$ListName
+    [string]$ListName,
+    [Parameter(Mandatory=$false)]
+    [string]$LogFile = "log.txt"
 )
     
 try {
@@ -19,7 +21,7 @@ try {
     $ListItems = Get-PnPListItem -List $ListName -PageSize 2000
     $ItemCount = $ListItems.Count
 } catch {
-    Write-Host "An error occurred: $_"
+    Write-Host "An error occurred: $_" | Out-File $LogFile -Append
     exit 1
 }
 
@@ -30,7 +32,7 @@ try {
         #...
     }
 } catch {
-    Write-Host "An error occurred while processing the items: $_"
+    Write-Host "An error occurred while processing the items: $_" | Out-File $LogFile -Append
     exit 1
 }
    
