@@ -22,6 +22,17 @@ try {
     Write-Host "An error occurred: $_"
     exit 1
 }
+
+#Iterate through each list item
+try {
+    ForEach($Item in $ListItems)
+    {
+        #...
+    }
+} catch {
+    Write-Host "An error occurred while processing the items: $_"
+    exit 1
+}
    
 #Iterate through each list item
 ForEach($Item in $ListItems)
