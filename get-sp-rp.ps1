@@ -86,8 +86,6 @@ try {
                     if ($RemoveSharingFileAccess) {
                         if ($Item.FileSystemObjectType -eq "File") {
                             Remove-PnPFileSharingLink -Identity $Item.FieldValues["FileRef"]
-                        } elseif ($Item.FileSystemObjectType -eq "Folder") {
-                            Remove-PnPFolderSharingLink -Identity $Item.FieldValues["FileRef"]
                         }
                     }
 
