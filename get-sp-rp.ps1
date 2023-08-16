@@ -30,13 +30,13 @@ try {
     }
     $ItemCount = $ListItems.Count
 } catch [System.Net.WebException] {
-    Write-Host "Network error: $_" | Out-File $LogFile -Append
+    Write-Host "Network error: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
 } catch [System.Management.Automation.CommandNotFoundException] {
-    Write-Host "Command not found: $_" | Out-File $LogFile -Append
+    Write-Host "Command not found: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
 } catch {
-    Write-Host "An unknown error occurred: $_" | Out-File $LogFile -Append
+    Write-Host "An unknown error occurred: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
 }
 
@@ -47,10 +47,10 @@ try {
         #Processing code goes here...
     }
 } catch [System.Management.Automation.RuntimeException] {
-    Write-Host "Runtime error while processing the items: $_" | Out-File $LogFile -Append
+    Write-Host "Runtime error while processing the items: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
 } catch {
-    Write-Host "An unknown error occurred while processing the items: $_" | Out-File $LogFile -Append
+    Write-Host "An unknown error occurred while processing the items: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
 }
    
