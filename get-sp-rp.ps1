@@ -107,6 +107,7 @@ try {
                     ShareLinkType  = $ShareLink.LinkKind
                     AllowsAnonymousAccess  = $ShareLink.AllowsAnonymousAccess
                     IsActive  = $ShareLink.IsActive
+                    ExpirationDate = $ShareLink.Expiration
                     })
                 }
             }
