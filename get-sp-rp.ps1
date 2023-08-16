@@ -23,7 +23,7 @@ try {
       
     #Get all list items in batches
     #Only fetch the fields we need to improve performance
-    if ($null -ne $FolderName) {
+    if (![string]::IsNullOrEmpty($FolderName)) {
         $ListItems = Get-PnPListItem -List $ListName -Folder $FolderName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
     } else {
         $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
