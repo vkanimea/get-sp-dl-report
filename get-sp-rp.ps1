@@ -16,7 +16,7 @@ param(
     
 try {
     #Connect to PnP Online
-    Connect-PnPOnline -Url $SiteURL -UseWebLogin
+    Connect-PnPOnline -Url $SiteURL -Interactive
     $Ctx = Get-PnPContext
     $Results = @()
     $global:counter = 0
