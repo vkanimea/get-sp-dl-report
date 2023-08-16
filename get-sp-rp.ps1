@@ -91,9 +91,9 @@ try {
                     #Check if the item is a file or a folder and clear the sharing link accordingly
                     if ($RemoveSharingFileAccess) {
                         if ($Item.FileSystemObjectType -eq "File") {
-                            Remove-PnPFileSharingLink -Url $Item.FieldValues["FileRef"]
+                            Remove-PnPFileSharingLink -Identity $Item.FieldValues["FileRef"]
                         } elseif ($Item.FileSystemObjectType -eq "Folder") {
-                            Remove-PnPFolderSharingLink -Url $Item.FieldValues["FileRef"]
+                            Remove-PnPFolderSharingLink -Identity $Item.FieldValues["FileRef"]
                         }
                     }
 
