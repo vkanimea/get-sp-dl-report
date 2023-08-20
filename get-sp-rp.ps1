@@ -91,8 +91,8 @@ try {
                                 $fileUrl = $Item.FieldValues["FileRef"]
                                 $fileName = $Item.FieldValues["FileLeafRef"]
                                 $destinationUrl = "$SiteUrl/$DestinationLibrary/$fileName"
-                                Move-PnPFile -ServerRelativeUrl $fileUrl -TargetUrl $destinationUrl -Force
-                                Move-PnPFile -ServerRelativeUrl $destinationUrl -TargetUrl $fileUrl -Force
+                                Copy-PnPFile -SourceUrl $fileUrl -TargetUrl $destinationUrl -Force
+                                Copy-PnPFile -SourceUrl $destinationUrl -TargetUrl $fileUrl -Force
                             }
                         }
                     }
