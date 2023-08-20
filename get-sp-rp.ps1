@@ -2,8 +2,8 @@
 param(
     [Parameter(Mandatory=$true)]
     [string]$SiteUrl,
-    [Parameter(Mandatory=$true)]
-    [string]$ReportOutput,
+    [Parameter(Mandatory=$false)]
+    [string]$ReportOutput = "report.csv",
     [Parameter(Mandatory=$true)]
     [string]$ListName,
     [Parameter(Mandatory=$true)]
