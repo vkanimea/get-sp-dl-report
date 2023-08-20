@@ -1,5 +1,5 @@
 # get-sp-rp
-Generate a report for a SharePoint Site for shared links in a Document library. Parameters are SiteUrl, ReportOutput, ListName, DestinationLibrary, LogFile, RemoveSharingFileAccess, and UsePreviousOutput. Uses PnP Modules for SharePoint. ReportOutput: csv file output : Name, RelativeURL, FileType, ShareLink, ShareLinkAccess, ShareLinkType, AllowsAnonymousAccess, IsActive, Expiration.
+Generate a report for a SharePoint Site for shared links in a Document library. Parameters are SiteUrl, ListName, DestinationLibrary, ReportOutput, LogFile, RemoveSharingFileAccess, and UsePreviousOutput. Uses PnP Modules for SharePoint. ReportOutput: csv file output : Name, RelativeURL, FileType, ShareLink, ShareLinkAccess, ShareLinkType, AllowsAnonymousAccess, IsActive, Expiration.
 
 ## Requirements
 This script requires PowerShell version 7 and the SharePoint PnP module. Please ensure these are installed and available on your system before running the script.
