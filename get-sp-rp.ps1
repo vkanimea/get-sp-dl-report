@@ -11,7 +11,9 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$LogFile = "log.txt",
     [Parameter(Mandatory=$false)]
-    [bool]$RemoveSharingFileAccess = $false
+    [bool]$RemoveSharingFileAccess = $false,
+    [Parameter(Mandatory=$false)]
+    [bool]$UsePreviousOutput = $false
 )
     
 try {
@@ -21,10 +23,15 @@ try {
     $Results = @()
     $global:counter = 0
       
-    #Get all list items in batches
-    #Only fetch the fields we need to improve performance
-    $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
-    $ItemCount = $ListItems.Count
+    #Get all list items in batches or from previous output
+    if ($UsePreviousOutput -eq $false) {
+        #Only fetch the fields we need to improve performance
+        $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+        $ItemCount = $ListItems.Count
+    } else {
+        $ListItems = Import-Csv -Path $ReportOutput
+        $ItemCount = $ListItems.Count
+    }
 } catch [System.Net.WebException] {
     Write-Host "Network error: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
