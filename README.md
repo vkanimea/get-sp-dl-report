@@ -6,18 +6,21 @@ This script requires PowerShell version 7 and the SharePoint PnP module. Please 
 
 ## Usage
 ```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -DestinationLibrary "Your Destination Library"
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name"
 ```
-Replace `"https://yoursharepointsite.com"` with the URL of your SharePoint site, `"C:\path\to\your\report.csv"` with the path where you want the report to be saved, `"Your List Name"` with the name of the list you want to get the shared links from, and `"Your Destination Library"` with the name of your destination library.
+Replace `"https://yoursharepointsite.com"` with the URL of your SharePoint site and `"Your List Name"` with the name of the list you want to get the shared links from.
 
-By default, the script logs to a default file. If you want to change the default directory for the output files, you can do so with the `-LogFile` and `-ReportOutput` parameters.
-If you want to remove sharing file access, you can do so with the `-RemoveSharingFileAccess` parameter:
+If you want to remove sharing file access and specify a destination library, you can do so with the `-RemoveSharingFileAccess` and `-DestinationLibrary` parameters:
 ```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $false
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -RemoveSharingFileAccess $true -DestinationLibrary "Your Destination Library"
 ```
+Replace `"Your Destination Library"` with the name of your destination library.
+
+By default, the script logs to a default file and outputs a report to a default location. If you want to change these defaults, you can do so with the `-LogFile` and `-ReportOutput` parameters.
+
 If you want to use the previous output, you can do so with the `-UsePreviousOutput` parameter:
 ```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -UsePreviousOutput $true
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -UsePreviousOutput $true
 ```
 Please note that you need to have the SharePoint PnP PowerShell module installed and you need to have access to the SharePoint site.
 
