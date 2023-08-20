@@ -18,10 +18,11 @@ Replace `"Your Destination Library"` with the name of your destination library.
 
 By default, the script logs to a default file and outputs a report to a default location. If you want to change these defaults, you can do so with the `-LogFile` and `-ReportOutput` parameters.
 
-If you want to use the previous output, you can do so with the `-UsePreviousOutput` parameter:
+If you want to use the previous output, you can do so with the `-UsePreviousOutput` and `-InputFile` parameters:
 ```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -UsePreviousOutput $true
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -UsePreviousOutput $true -InputFile "Your Input File"
 ```
+Replace `"Your Input File"` with the path to your input file.
 Please note that you need to have the SharePoint PnP PowerShell module installed and you need to have access to the SharePoint site.
 
 

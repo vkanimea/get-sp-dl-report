@@ -13,7 +13,9 @@ param(
     [Parameter(Mandatory=$false)]
     [bool]$RemoveSharingFileAccess = $false,
     [Parameter(Mandatory=$false)]
-    [bool]$UsePreviousOutput = $false
+    [bool]$UsePreviousOutput = $false,
+    [Parameter(Mandatory=$false)]
+    [string]$InputFile
 )
     
 try {
