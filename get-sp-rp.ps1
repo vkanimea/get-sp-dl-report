@@ -24,11 +24,18 @@ try {
     $Ctx = Get-PnPContext
     $Results = @()
     $global:counter = 0
-      
+          
     #Get all list items in batches or from previous output
     if ($UsePreviousOutput -eq $false) {
-        #Only fetch the fields we need to improve performance
-        $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+        if ($InputFile) {
+            # If an input file is provided, read the file and process only those items
+            $ListItems = Get-Content $InputFile | ForEach-Object {
+                Get-PnPListItem -List $ListName -Id $_ -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+            }
+        } else {
+            # If no input file is provided, fetch all items
+            $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+        }
         $ItemCount = $ListItems.Count
     } else {
         $ListItems = Import-Csv -Path $ReportOutput
@@ -46,12 +53,40 @@ try {
 }
 
    
+# Function to collect data
+function CollectData($Item, $ShareLink, $AccessType) {
+    return New-Object PSObject -property $([ordered]@{
+        Name  = $Item.FieldValues["FileLeafRef"]           
+        RelativeURL = $Item.FieldValues["FileRef"]
+        FileType = $Item.FieldValues["File_x0020_Type"]
+        ShareLink  = $ShareLink.Url
+        ShareLinkAccess  =  $AccessType
+        ShareLinkType  = $ShareLink.LinkKind
+        AllowsAnonymousAccess  = $ShareLink.AllowsAnonymousAccess
+        IsActive  = $ShareLink.IsActive
+        ExpirationDate = $ShareLink.Expiration
+    })
+}
+
+# Function to remove sharing file access
+function RemoveSharingFileAccess($Item) {
+    if ($Item.FileSystemObjectType -eq "File") {
+        if ($Item.FieldValues["FileRef"] -ne $null -and $Item.FieldValues["FileRef"] -ne "") {
+            $fileUrl = $Item.FieldValues["FileRef"]
+            $fileName = $Item.FieldValues["FileLeafRef"]
+            $destinationUrl = "$SiteUrl/$DestinationLibrary/$fileName"
+            Copy-PnPFile -SourceUrl $fileUrl -TargetUrl $destinationUrl -Force
+            Copy-PnPFile -SourceUrl $destinationUrl -TargetUrl $fileUrl -Force
+        }
+    }
+}
+
 #Iterate through each list item
 try {
     ForEach($Item in $ListItems)
     {
         Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
- 
+     
         #Check if the Item has unique permissions
         $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments"
         If($HasUniquePermissions)
@@ -60,7 +95,7 @@ try {
             $SharingInfo = [Microsoft.SharePoint.Client.ObjectSharingInformation]::GetObjectSharingInformation($Ctx, $Item, $false, $false, $false, $true, $true, $true, $true)
             $ctx.Load($SharingInfo)
             $ctx.ExecuteQuery()
-             
+                 
             #Iterate through each sharing link
             ForEach($ShareLink in $SharingInfo.SharingLinks)
             {
@@ -79,32 +114,14 @@ try {
                     {
                         $AccessType="ViewOnly"
                     }
-                     
+                         
                     #Check if the item is a file or a folder and clear the sharing link accordingly
                     if ($RemoveSharingFileAccess) {
-                        if ($Item.FileSystemObjectType -eq "File") {
-                            if ($Item.FieldValues["FileRef"] -ne $null -and $Item.FieldValues["FileRef"] -ne "") {
-                                $fileUrl = $Item.FieldValues["FileRef"]
-                                $fileName = $Item.FieldValues["FileLeafRef"]
-                                $destinationUrl = "$SiteUrl/$DestinationLibrary/$fileName"
-                                Copy-PnPFile -SourceUrl $fileUrl -TargetUrl $destinationUrl -Force
-                                Copy-PnPFile -SourceUrl $destinationUrl -TargetUrl $fileUrl -Force
-                            }
-                        }
+                        RemoveSharingFileAccess $Item
                     }
 
                     #Collect the data
-                    $Results += New-Object PSObject -property $([ordered]@{
-                    Name  = $Item.FieldValues["FileLeafRef"]           
-                    RelativeURL = $Item.FieldValues["FileRef"]
-                    FileType = $Item.FieldValues["File_x0020_Type"]
-                    ShareLink  = $ShareLink.Url
-                    ShareLinkAccess  =  $AccessType
-                    ShareLinkType  = $ShareLink.LinkKind
-                    AllowsAnonymousAccess  = $ShareLink.AllowsAnonymousAccess
-                    IsActive  = $ShareLink.IsActive
-                    ExpirationDate = $ShareLink.Expiration
-                    })
+                    $Results += CollectData $Item $ShareLink $AccessType
                 }
             }
         }
