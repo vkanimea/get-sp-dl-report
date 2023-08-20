@@ -11,7 +11,7 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$LogFile = "log.txt",
     [Parameter(Mandatory=$false)]
-    [bool]$RemoveSharingFileAccess = $true
+    [bool]$RemoveSharingFileAccess = $false
 )
     
 try {
