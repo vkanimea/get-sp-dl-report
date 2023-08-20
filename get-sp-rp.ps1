@@ -2,12 +2,12 @@
 param(
     [Parameter(Mandatory=$true)]
     [string]$SiteUrl,
-    [Parameter(Mandatory=$false)]
-    [string]$ReportOutput = "report.csv",
     [Parameter(Mandatory=$true)]
     [string]$ListName,
     [Parameter(Mandatory=$true)]
     [string]$DestinationLibrary,
+    [Parameter(Mandatory=$false)]
+    [string]$ReportOutput = "report.csv",
     [Parameter(Mandatory=$false)]
     [string]$LogFile = "log.txt",
     [Parameter(Mandatory=$false)]
