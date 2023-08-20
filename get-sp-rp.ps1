@@ -36,19 +36,6 @@ try {
     exit 1
 }
 
-#Iterate through each list item
-try {
-    ForEach($Item in $ListItems)
-    {
-        #Processing code goes here...
-    }
-} catch [System.Management.Automation.RuntimeException] {
-    Write-Host "Runtime error while processing the items: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
-    exit 1
-} catch {
-    Write-Host "An unknown error occurred while processing the items: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
-    exit 1
-}
    
 #Iterate through each list item
 try {
