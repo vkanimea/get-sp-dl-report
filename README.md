@@ -10,10 +10,7 @@ This script requires PowerShell version 7 and the SharePoint PnP module. Please 
 ```
 Replace `"https://yoursharepointsite.com"` with the URL of your SharePoint site, `"C:\path\to\your\report.csv"` with the path where you want the report to be saved, `"Your List Name"` with the name of the list you want to get the shared links from, and `"Your Destination Library"` with the name of your destination library.
 
-If you want to specify a log file, you can do so with the `-LogFile` parameter:
-```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -LogFile "C:\path\to\your\log.txt"
-```
+By default, the script logs to a default file. If you want to change the default directory for the output files, you can do so with the `-LogFile` and `-ReportOutput` parameters.
 If you want to remove sharing file access, you can do so with the `-RemoveSharingFileAccess` parameter:
 ```powershell
 .\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $false
