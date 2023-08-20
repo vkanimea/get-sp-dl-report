@@ -13,7 +13,7 @@ If you want to specify a log file, you can do so with the `-LogFile` parameter:
 ```
 If you want to remove sharing file access, you can do so with the `-RemoveSharingFileAccess` parameter:
 ```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -RemoveSharingFileAccess $true
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ReportOutput "C:\path\to\your\report.csv" -ListName "Your List Name" -RemoveSharingFileAccess $false
 ```
 If you want to specify a folder name, you can do so with the `-FolderName` parameter:
 ```powershell
