@@ -6,6 +6,8 @@ param(
     [string]$ReportOutput,
     [Parameter(Mandatory=$true)]
     [string]$ListName,
+    [Parameter(Mandatory=$true)]
+    [string]$DestinationLibrary,
     [Parameter(Mandatory=$false)]
     [string]$LogFile = "log.txt",
     [Parameter(Mandatory=$false)]
@@ -86,7 +88,11 @@ try {
                     if ($RemoveSharingFileAccess) {
                         if ($Item.FileSystemObjectType -eq "File") {
                             if ($Item.FieldValues["FileRef"] -ne $null -and $Item.FieldValues["FileRef"] -ne "") {
-                                Remove-PnPFileSharingLink -Identity $Item.FieldValues["FileRef"]
+                                $fileUrl = $Item.FieldValues["FileRef"]
+                                $fileName = $Item.FieldValues["FileLeafRef"]
+                                $destinationUrl = "$SiteUrl/$DestinationLibrary/$fileName"
+                                Move-PnPFile -ServerRelativeUrl $fileUrl -TargetUrl $destinationUrl -Force
+                                Move-PnPFile -ServerRelativeUrl $destinationUrl -TargetUrl $fileUrl -Force
                             }
                         }
                     }
