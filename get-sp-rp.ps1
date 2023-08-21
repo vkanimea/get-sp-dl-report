@@ -19,22 +19,16 @@ try {
     $Results = @()
     $global:counter = 0
           
-    #Get all list items in batches or from previous output
-    if ($UsePreviousOutput -eq $false) {
-        if ($InputFile) {
-            # If an input file is provided, read the file and process only those items
-            $ListItems = Get-Content $InputFile | ForEach-Object {
-                Get-PnPListItem -List $ListName -Id $_ -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
-            }
-        } else {
-            # If no input file is provided, fetch all items
-            $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+    if ($InputFile) {
+        # If an input file is provided, read the file and process only those items
+        $ListItems = Get-Content $InputFile | ForEach-Object {
+            Get-PnPListItem -List $ListName -Id $_ -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
         }
-        $ItemCount = $ListItems.Count
     } else {
-        $ListItems = Import-Csv -Path $ReportOutput
-        $ItemCount = $ListItems.Count
+        # If no input file is provided, fetch all items
+        $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
     }
+    $ItemCount = $ListItems.Count
 } catch [System.Net.WebException] {
     Write-Host "Network error: $_. Exception details: $($_.Exception)" | Out-File $LogFile -Append
     exit 1
