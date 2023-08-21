@@ -6,6 +6,7 @@ This script requires PowerShell version 7 and the SharePoint PnP module. Please 
 
 ## Usage
 ```powershell
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name"
 .\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library"
 .\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $true
 .\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -ReportOutput "myreport.csv"
