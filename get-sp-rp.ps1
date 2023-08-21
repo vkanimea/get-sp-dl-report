@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$SiteUrl,
     [Parameter(Mandatory=$true)]
-    [string]$ListName,
+    [string]$SL,
     [Parameter(Mandatory=$false)]
     [string]$InputFile,
     [Parameter(Mandatory=$false)]
