@@ -54,18 +54,7 @@ function CollectData($Item, $ShareLink, $AccessType) {
     })
 }
 
-# Function to remove sharing file access
-function RemoveSharingFileAccess($Item) {
-    if ($Item.FileSystemObjectType -eq "File") {
-        if ($Item.FieldValues["FileRef"] -ne $null -and $Item.FieldValues["FileRef"] -ne "") {
-            $fileUrl = $Item.FieldValues["FileRef"]
-            $fileName = $Item.FieldValues["FileLeafRef"]
-            $destinationUrl = "$SiteUrl/$DestinationLibrary/$fileName"
-            Copy-PnPFile -SourceUrl $fileUrl -TargetUrl $destinationUrl -Force
-            Copy-PnPFile -SourceUrl $destinationUrl -TargetUrl $fileUrl -Force
-        }
-    }
-}
+# Removed the RemoveSharingFileAccess function
 
 # Function to write progress
 function WriteProgress($Item) {
@@ -106,10 +95,7 @@ try {
                         $AccessType="ViewOnly"
                     }
                          
-                    #Check if the item is a file or a folder and clear the sharing link accordingly
-                    if ($RemoveSharingFileAccess) {
-                        RemoveSharingFileAccess $Item
-                    }
+                    # Removed the call to RemoveSharingFileAccess function
 
                     #Collect the data
                     $Results += CollectData $Item $ShareLink $AccessType
