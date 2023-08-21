@@ -25,9 +25,9 @@ This script generates a report for a SharePoint Site for shared links in a Docum
 ### Usage
 
 ```powershell
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Your List Name"
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Your List Name" -InputFile "myinputfile.txt"
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Your List Name" -InputFile "myinputfile.txt" -ReportOutput "myreport.csv"
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library"
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -InputFile "myinputfile.txt"
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -InputFile "myinputfile.txt" -ReportOutput "myreport.csv"
 ```
 
 ## set-sp-rp.ps1
@@ -44,8 +44,8 @@ This script removes expired shared file links in a SharePoint Site.
 ### Usage
 
 ```powershell
-.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Your List Name" -DL "Your Destination Library"
-.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Your List Name" -DL "Your Destination Library" -RemoveSharingFileAccess $true
+.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -DL "Your Destination Library"
+.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -DL "Your Destination Library" -RemoveSharingFileAccess $true
 ```
 
 ## Requirements
