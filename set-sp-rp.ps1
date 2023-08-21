@@ -1,15 +1,3 @@
-#Parameters
-param(
-    [Parameter(Mandatory=$true)]
-    [string]$SiteUrl,
-    [Parameter(Mandatory=$true)]
-    [string]$SL,
-    [Parameter(Mandatory=$true)]
-    [string]$DL,
-    [Parameter(Mandatory=$false)]
-    [bool]$RemoveSharingFileAccess = $false
-)
-
 # Function to remove sharing file access
 function RemoveSharingFileAccess($Item) {
     if ($Item.FileSystemObjectType -eq "File") {
@@ -22,6 +10,18 @@ function RemoveSharingFileAccess($Item) {
         }
     }
 }
+
+#Parameters
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$SiteUrl,
+    [Parameter(Mandatory=$true)]
+    [string]$SL,
+    [Parameter(Mandatory=$true)]
+    [string]$DL,
+    [Parameter(Mandatory=$false)]
+    [bool]$RemoveSharingFileAccess = $false
+)
 
 # Rest of the code that calls RemoveSharingFileAccess and handles exceptions
 #Parameters
