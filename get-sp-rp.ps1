@@ -7,13 +7,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DestinationLibrary,
     [Parameter(Mandatory=$false)]
-    [string]$ReportOutput = "report.csv",
-    [Parameter(Mandatory=$false)]
-    [string]$LogFile = "log.txt",
-    [Parameter(Mandatory=$false)]
     [bool]$RemoveSharingFileAccess = $false,
-    [Parameter(Mandatory=$false)]
-    [bool]$UsePreviousOutput = $false,
     [Parameter(Mandatory=$false)]
     [string]$InputFile
 )
