@@ -81,11 +81,16 @@ function RemoveSharingFileAccess($Item) {
     }
 }
 
+# Function to write progress
+function WriteProgress($Item) {
+    Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
+}
+
 #Iterate through each list item
 try {
     ForEach($Item in $ListItems)
     {
-        Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
+        WriteProgress $Item
      
         #Check if the Item has unique permissions
         $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments"
@@ -125,7 +130,7 @@ try {
                 }
             }
         }
-        Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
+        WriteProgress $Item
         $global:counter++
     }
     $Results | Export-CSV $ReportOutput -NoTypeInformation
