@@ -136,6 +136,11 @@ try {
                          
                     # Removed the call to RemoveSharingFileAccess function
 
+                    #Call to RemoveSharingFileAccess function
+                    if($RemoveSharingFileAccess) {
+                        RemoveSharingFileAccess $Item
+                    }
+
                     #Collect the data
                     $Results += CollectData $Item $ShareLink $AccessType
                 }
