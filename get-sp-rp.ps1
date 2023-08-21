@@ -4,10 +4,6 @@ param(
     [string]$SiteUrl,
     [Parameter(Mandatory=$true)]
     [string]$ListName,
-    [Parameter(Mandatory=$true)]
-    [string]$DestinationLibrary,
-    [Parameter(Mandatory=$false)]
-    [bool]$RemoveSharingFileAccess = $false,
     [Parameter(Mandatory=$false)]
     [string]$InputFile,
     [Parameter(Mandatory=$false)]
