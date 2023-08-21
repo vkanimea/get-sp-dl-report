@@ -9,7 +9,9 @@ param(
     [Parameter(Mandatory=$false)]
     [bool]$RemoveSharingFileAccess = $false,
     [Parameter(Mandatory=$false)]
-    [string]$InputFile
+    [string]$InputFile,
+    [Parameter(Mandatory=$false)]
+    [string]$ReportOutput = "report.csv"
 )
     
 try {
