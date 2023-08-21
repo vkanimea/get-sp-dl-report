@@ -2,7 +2,7 @@
 
 This repository contains two PowerShell scripts for generating a report and removing expired shared file links in a SharePoint Site. 
 
-The initial script was inspired and referenced from this [SharePoint Diary article](https://www.sharepointdiary.com/2020/11/generate-shared-links-permission-report-in-sharepoint-online.html).
+The initial script was inspired and referenced from this [SharePoint Diary article](https://www.sharepointdiary.com/2020/11/find-all-shared-links-in-sharepoint-online-document-library.html).
 
 ## get-sp-rp.ps1
 
