@@ -38,14 +38,14 @@ This script removes expired shared file links in a SharePoint Site.
 
 - `SiteUrl`: The URL of your SharePoint site.
 - `SL`: The name of the list you want to remove the shared links from.
-- `DL`: The name of your destination library.
+- `DL`: The name of your destination document library.
 - `RemoveSharingFileAccess`: (Optional) A boolean value indicating whether to remove sharing file access. Defaults to false.
 
 ### Usage
 
 ```powershell
-.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -DL "Your Destination Library"
-.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -DL "Your Destination Library" -RemoveSharingFileAccess $true
+.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -DL "Destination Document Library"
+.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -SL "Source Document Library" -DL "Destination Document Library" -RemoveSharingFileAccess $true
 ```
 
 ## Requirements
