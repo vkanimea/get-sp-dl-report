@@ -13,6 +13,8 @@ This script requires PowerShell version 7 and the SharePoint PnP module. Please 
 ```
 Replace `"https://yoursharepointsite.com"` with the URL of your SharePoint site, `"Your List Name"` with the name of the list you want to get the shared links from, and `"Your Destination Library"` with the name of your destination library. Replace `"myreport.csv"` and `"myinputfile.txt"` with your desired output report file and input file respectively.
 
+The `-InputFile` parameter allows you to speed up the processing of the script the second time you run it, as it will only process the list of files with an expiration date instead of running against all the documents in the document library. This can be a significant time-saving factor if the document library contains many documents.
+
 **Note:** The `-DestinationLibrary` parameter must be used with the `-RemoveSharingFileAccess` parameter.
 
 
