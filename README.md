@@ -1,31 +1,46 @@
-# get-sp-rp
-Generate a report for a SharePoint Site for shared links in a Document library. Parameters are SiteUrl, ListName, DestinationLibrary, ReportOutput, RemoveSharingFileAccess, and InputFile. Uses PnP Modules for SharePoint. 
+# SharePoint Report Scripts
 
-ReportOutput is a CSV file with the following fields:
-- `Name`: The name of the file or item.
-- `RelativeURL`: The URL of the file or item, relative to some base URL.
-- `FileType`: The type of the file or item (e.g., .txt, .docx, .xlsx, etc.).
-- `ShareLink`: A link to share the file or item.
-- `ShareLinkAccess`: The access level of the share link (e.g., view only, edit, etc.).
-- `ShareLinkType`: The type of share link (e.g., anyone with the link, people in your organization, etc.).
-- `AllowsAnonymousAccess`: Whether the share link allows anonymous access.
-- `IsActive`: Whether the file or item is active.
-- `ExpirationDate`: The date when the share link expires.
+This repository contains two PowerShell scripts for generating a report and removing expired shared file links in a SharePoint Site.
 
-## Requirements
-This script requires PowerShell version 7 and the SharePoint PnP module. Please ensure these are installed and available on your system before running the script.
+## get-sp-rp.ps1
 
-## Usage
+This script generates a report for a SharePoint Site for shared links in a Document library. 
+
+### Parameters
+
+- `SiteUrl`: The URL of your SharePoint site.
+- `ListName`: The name of the list you want to get the shared links from.
+- `InputFile`: (Optional) A file containing a list of files with an expiration date. If provided, the script will only process these files instead of running against all the documents in the document library.
+- `ReportOutput`: (Optional) The name of your desired output report file. Defaults to "report.csv".
+
+### Usage
+
 ```powershell
 .\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name"
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $true
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $true -InputFile "myinputfile.txt"
-.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $true -InputFile "myinputfile.txt" -ReportOutput "myreport.csv"
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -InputFile "myinputfile.txt"
+.\get-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -InputFile "myinputfile.txt" -ReportOutput "myreport.csv"
 ```
-Replace `"https://yoursharepointsite.com"` with the URL of your SharePoint site, `"Your List Name"` with the name of the list you want to get the shared links from, and `"Your Destination Library"` with the name of your destination library. Replace `"myreport.csv"` and `"myinputfile.txt"` with your desired output report file and input file respectively.
 
-The `-InputFile` parameter allows you to speed up the processing of the script the second time you run it, as it will only process the list of files with an expiration date instead of running against all the documents in the document library. This can be a significant time-saving factor if the document library contains many documents.
+## set-sp-rp.ps1
 
-**Note:** The `-DestinationLibrary` parameter must be used with the `-RemoveSharingFileAccess` parameter.
+This script removes expired shared file links in a SharePoint Site.
+
+### Parameters
+
+- `SiteUrl`: The URL of your SharePoint site.
+- `ListName`: The name of the list you want to remove the shared links from.
+- `DestinationLibrary`: The name of your destination library.
+- `RemoveSharingFileAccess`: (Optional) A boolean value indicating whether to remove sharing file access. Defaults to false.
+
+### Usage
+
+```powershell
+.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library"
+.\set-sp-rp.ps1 -SiteUrl "https://yoursharepointsite.com" -ListName "Your List Name" -DestinationLibrary "Your Destination Library" -RemoveSharingFileAccess $true
+```
+
+## Requirements
+
+These scripts require PowerShell version 7 and the SharePoint PnP module. Please ensure these are installed and available on your system before running the scripts.
 
 
