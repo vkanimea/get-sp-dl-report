@@ -20,7 +20,8 @@ try {
     if ($InputFile) {
         # If an input file is provided, read the file and process only those items
         $ListItems = Import-Csv $InputFile | ForEach-Object {
-            Get-PnPFile -Url $_.RelativeURL -AsListItem -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+            $file = Get-PnPFile -Url $_.RelativeURL -AsListItem
+            Get-PnPListItem -List $file.ListItemAllFields.ParentList -Id $file.ListItemAllFields.Id -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
         }
     } else {
         # If no input file is provided, fetch all items
