@@ -1,16 +1,3 @@
-# Function to clean up old logs
-function CleanupLogs() {
-    $LogAge = 7 # The age of logs to keep, in days
-    $CurrentDate = Get-Date
-    $LogFiles = Get-ChildItem $LogFile
-    foreach ($LogFile in $LogFiles) {
-        $LogAgeDays = ($CurrentDate - $LogFile.LastWriteTime).Days
-        if ($LogAgeDays -gt $LogAge) {
-            Remove-Item $LogFile.FullName
-        }
-    }
-}
-
 #Parameters
 param(
     [Parameter(Mandatory=$true)]
@@ -24,6 +11,19 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$LogFile = "log.txt"
 )
+
+# Function to clean up old logs
+function CleanupLogs() {
+    $LogAge = 7 # The age of logs to keep, in days
+    $CurrentDate = Get-Date
+    $LogFiles = Get-ChildItem $LogFile
+    foreach ($LogFile in $LogFiles) {
+        $LogAgeDays = ($CurrentDate - $LogFile.LastWriteTime).Days
+        if ($LogAgeDays -gt $LogAge) {
+            Remove-Item $LogFile.FullName
+        }
+    }
+}
 
 # Call the CleanupLogs function to clean up old logs
 CleanupLogs
