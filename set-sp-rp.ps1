@@ -11,8 +11,16 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$InputFile,
     [Parameter(Mandatory=$false)]
-    [string]$ReportOutput = "report.csv"
+    [string]$ReportOutput = "report.csv",
+    [Parameter(Mandatory=$false)]
+    [string]$LogFile = "log.txt"
 )
+
+# Function to write log
+function WriteLog($Message) {
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$timestamp - $Message" | Out-File $LogFile -Append
+}
 # Function to remove sharing file access
 function RemoveSharingFileAccess($Item) {
     if ($Item.FileSystemObjectType -eq "File") {
@@ -75,7 +83,9 @@ function CollectData($Item, $ShareLink, $AccessType) {
 
 # Function to write progress
 function WriteProgress($Item) {
-    Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity "Getting Shared Links from '$($Item.FieldValues["FileRef"])'" -Status "Processing Items $global:Counter to $($ItemCount)";
+    $progressMessage = "Getting Shared Links from '$($Item.FieldValues["FileRef"])' - Processing Items $global:Counter to $($ItemCount)"
+    Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity $progressMessage
+    WriteLog $progressMessage
 }
 
 #Iterate through each list item
@@ -128,7 +138,9 @@ try {
         $global:counter++
     }
     $Results | Export-CSV $ReportOutput -NoTypeInformation
-    Write-host -f Green "Sharing Links Report Generated Successfully!"
+    $successMessage = "Sharing Links Report Generated Successfully!"
+    Write-host -f Green $successMessage
+    WriteLog $successMessage
 } catch [System.Management.Automation.RuntimeException] {
     Write-Host "Runtime error while processing the items: $_" | Out-File $LogFile -Append
     exit 1
