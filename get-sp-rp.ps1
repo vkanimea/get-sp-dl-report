@@ -72,7 +72,7 @@ try {
         WriteProgress $Item
      
         #Check if the Item has unique permissions
-        $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments" -Batch $batch
+        $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments"
         If($HasUniquePermissions)
         {       
             #Get Shared Links
