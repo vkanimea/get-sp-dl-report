@@ -17,9 +17,10 @@ param(
 )
 
 # Function to write log
-function WriteLog($Message) {
+function WriteLog($Message, $LastProcessedItem) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     "$timestamp - $Message" | Out-File $LogFile -Append
+    $LastProcessedItem | Out-File "last_processed_item.txt"
 }
 # Function to remove sharing file access
 function RemoveSharingFileAccess($Item) {
