@@ -132,8 +132,8 @@ try {
                 }
             }
         }
-        WriteProgress $Item
         $global:counter++
+        WriteProgress $Item
     }
     Invoke-PnPBatch -Batch $batch
     $Results | Export-CSV $ReportOutput -NoTypeInformation -Append
