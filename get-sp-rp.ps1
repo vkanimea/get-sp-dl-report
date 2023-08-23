@@ -4,6 +4,8 @@ param(
     [string]$SiteUrl,
     [Parameter(Mandatory=$true)]
     [string]$SL,
+    [Parameter(Mandatory=$true)]
+    [string]$ListName,
     [Parameter(Mandatory=$false)]
     [string]$InputFile,
     [Parameter(Mandatory=$false)]
