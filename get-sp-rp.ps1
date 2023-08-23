@@ -68,7 +68,7 @@ function CollectData($Item, $ShareLink, $AccessType) {
 
 # Function to write progress
 function WriteProgress($Item) {
-    $progressMessage = "Getting Shared Links from '$($Item.FieldValues["FileRef"])' - Processing Items $global:Counter to $($ItemCount)"
+    $progressMessage = "Processing Items $global:Counter to $($ItemCount)"
     Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity $progressMessage
     WriteLog $progressMessage $Item.FieldValues["FileRef"]
     Write-Host $progressMessage
