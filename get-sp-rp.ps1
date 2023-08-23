@@ -4,8 +4,6 @@ param(
     [string]$SiteUrl,
     [Parameter(Mandatory=$true)]
     [string]$SL,
-    [Parameter(Mandatory=$true)]
-    [string]$ListName,
     [Parameter(Mandatory=$false)]
     [string]$InputFile,
     [Parameter(Mandatory=$false)]
@@ -29,7 +27,7 @@ try {
         }
     } else {
         # If no input file is provided, fetch all items
-        $ListItems = Get-PnPListItem -List $ListName -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
+        $ListItems = Get-PnPListItem -List $SL -PageSize 2000 -Fields "FileLeafRef", "FileRef", "File_x0020_Type"
     }
     $ItemCount = $ListItems.Count
 } catch [System.Net.WebException] {
