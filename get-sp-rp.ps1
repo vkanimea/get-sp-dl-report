@@ -66,12 +66,13 @@ function WriteProgress($Item) {
 
 #Iterate through each list item
 try {
+    $batch = New-PnPBatch
     ForEach($Item in $ListItems)
     {
         WriteProgress $Item
      
         #Check if the Item has unique permissions
-        $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments"
+        $HasUniquePermissions = Get-PnPProperty -ClientObject $Item -Property "HasUniqueRoleAssignments" -Batch $batch
         If($HasUniquePermissions)
         {       
             #Get Shared Links
@@ -108,6 +109,7 @@ try {
         WriteProgress $Item
         $global:counter++
     }
+    Invoke-PnPBatch -Batch $batch
     $Results | Export-CSV $ReportOutput -NoTypeInformation
     Write-host -f Green "Sharing Links Report Generated Successfully!"
 } catch [System.Management.Automation.RuntimeException] {
