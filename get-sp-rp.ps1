@@ -21,9 +21,7 @@ function WriteLog($Message, $LastProcessedItem) {
     
 try {
     #Connect to PnP Online
-    $secpasswd = ConvertTo-SecureString "PlainTextPassword" -AsPlainText -Force
-    $mycreds = New-Object System.Management.Automation.PSCredential ("username", $secpasswd)
-    Connect-PnPOnline -Url $SiteURL -Credentials $mycreds
+    Connect-PnPOnline -Url $SiteURL -UseWebLogin
     $Ctx = Get-PnPContext
     $Results = @()
     $global:counter = 0
