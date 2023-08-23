@@ -7,7 +7,9 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$InputFile,
     [Parameter(Mandatory=$false)]
-    [string]$ReportOutput = "report.csv"
+    [string]$ReportOutput = "report.csv",
+    [Parameter(Mandatory=$false)]
+    [string]$LogFile = "log.txt"
 )
     
 try {
