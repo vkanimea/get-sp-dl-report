@@ -39,8 +39,8 @@ This script removes expiration date from the shared file links in a SharePoint S
 ### Parameters
 
 - `SiteUrl`: The URL of your SharePoint site.
-- `SL`: The name of the list you want to remove the shared links from.
-- `DL`: The name of your destination document library.
+- `SL`: The name of the Source document Library or Source List you want to remove the shared links from.
+- `DL`: The name of your Destination document Library or Destination List.
 - `RemoveSharingFileAccess`: (Optional) A boolean value indicating whether to remove sharing file access. Defaults to false.
 
 ### Usage
