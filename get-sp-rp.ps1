@@ -13,9 +13,10 @@ param(
 )
 
 # Function to write log
-function WriteLog($Message) {
+function WriteLog($Message, $LastProcessedItem) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     "$timestamp - $Message" | Out-File $LogFile -Append
+    $LastProcessedItem | Out-File "last_processed_item.txt"
 }
     
 try {
@@ -69,7 +70,7 @@ function CollectData($Item, $ShareLink, $AccessType) {
 function WriteProgress($Item) {
     $progressMessage = "Getting Shared Links from '$($Item.FieldValues["FileRef"])' - Processing Items $global:Counter to $($ItemCount)"
     Write-Progress -PercentComplete ($global:Counter / ($ItemCount) * 100) -Activity $progressMessage
-    WriteLog $progressMessage
+    WriteLog $progressMessage $Item.FieldValues["FileRef"]
 }
 
 #Iterate through each list item
