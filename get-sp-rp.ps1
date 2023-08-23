@@ -120,7 +120,7 @@ try {
         $global:counter++
     }
     Invoke-PnPBatch -Batch $batch
-    $Results | Export-CSV $ReportOutput -NoTypeInformation
+    $Results | Export-CSV $ReportOutput -NoTypeInformation -Append
     $successMessage = "Sharing Links Report Generated Successfully!"
     Write-host -f Green $successMessage
     WriteLog $successMessage
